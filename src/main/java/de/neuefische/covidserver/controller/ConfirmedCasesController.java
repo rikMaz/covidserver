@@ -20,13 +20,6 @@ public class ConfirmedCasesController {
         this.covidService = covidService;
     }
 
-    /*
-    @GetMapping
-    public List<ConfirmedPerDay> getConfirmed() {
-        return covidService.getConfirmedCases();
-    }
-     */
-
     @GetMapping("{country}")
     public CovidStatus getCountryConfirmedAvarage(@PathVariable String country) {
         return covidService.calculateCountryConfirmedAverage(country);
