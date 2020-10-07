@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class CovidApiService {
 
-    private final static String apiUrl = "https://api.covid19api.com/country/";
+    private final static String apiUrl = "https://api.covid19api.com/country/germany";
     private final RestTemplate restTemplate = new RestTemplate();
 
 

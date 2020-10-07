@@ -13,6 +13,8 @@ public class CovidService {
 
     private final CovidApiService covidApiService;
 
+    private ArrayList<ConfirmedPerDay> arrayOfConfirmedPerDay;
+
     public CovidService(CovidApiService covidApiService) {
         this.covidApiService = covidApiService;
     }
@@ -23,11 +25,23 @@ public class CovidService {
     }
 
     public ArrayList<ConfirmedPerDay> transformArrayToArrayList(CovidApiCountryPerDay[] covidValues) {
-        ArrayList<ConfirmedPerDay> resultValues = new ArrayList<>();
+        ArrayList<ConfirmedPerDay> resultArray = new ArrayList<>();
         for (CovidApiCountryPerDay covidValue: covidValues) {
-            resultValues.add(new ConfirmedPerDay(covidValue.getDate(),covidValue.getConfirmed()));
+            resultArray.add(new ConfirmedPerDay(covidValue.getDate(),covidValue.getConfirmed()));
         }
-        return resultValues;
+        return resultArray;
     }
 
+
+    public String calculateCountryConfirmedAverage() {
+        arrayOfConfirmedPerDay = new ArrayList<>();
+        CovidApiCountryPerDay[] covidValues = this.covidApiService.getCovidApiCountryPerDays();
+        arrayOfConfirmedPerDay = transformArrayToArrayList(covidValues);
+
+        int confirmedAverage = (arrayOfConfirmedPerDay.get(arrayOfConfirmedPerDay.size()-1).getConfirmed() - arrayOfConfirmedPerDay.get(arrayOfConfirmedPerDay.size()-8).getConfirmed())/7;
+
+        String resultString = "The seven-day-average of new covid cases in germany is: " + confirmedAverage;
+
+        return resultString;
+    }
 }
