@@ -11,5 +11,6 @@ public class ConfirmedPerDay {
 
     private String date;
     private int confirmed;
+    private String country;
 
 }

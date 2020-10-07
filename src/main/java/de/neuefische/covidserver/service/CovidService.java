@@ -24,7 +24,7 @@ public class CovidService {
     public ArrayList<ConfirmedPerDay> transformArrayToArrayList(CovidApiCountryPerDay[] covidValues) {
         ArrayList<ConfirmedPerDay> resultArray = new ArrayList<>();
         for (CovidApiCountryPerDay covidValue: covidValues) {
-            resultArray.add(new ConfirmedPerDay(covidValue.getDate(),covidValue.getConfirmed()));
+            resultArray.add(new ConfirmedPerDay(covidValue.getDate(), covidValue.getConfirmed(), covidValue.getCountry()));
         }
         return resultArray;
     }
@@ -36,7 +36,9 @@ public class CovidService {
         CovidApiCountryPerDay[] covidValues = this.covidApiService.getCovidApiCountryPerDays(country);
         arrayOfConfirmedPerDay = transformArrayToArrayList(covidValues);
 
-        int confirmedAverage = (arrayOfConfirmedPerDay.get(arrayOfConfirmedPerDay.size()-1).getConfirmed() - arrayOfConfirmedPerDay.get(arrayOfConfirmedPerDay.size()-8).getConfirmed())/7;
+        int confirmedLastDay = arrayOfConfirmedPerDay.get(arrayOfConfirmedPerDay.size() - 1).getConfirmed();
+        int confirmedFirstDay = arrayOfConfirmedPerDay.get(arrayOfConfirmedPerDay.size() - 7).getConfirmed();
+        int confirmedAverage = (confirmedLastDay - confirmedFirstDay)/7;
 
         covidStatus.setSevenDayAverageStatus(confirmedAverage);
         covidStatus.setCountry(covidValues[1].getCountry());
