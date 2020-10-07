@@ -1,8 +1,10 @@
 package de.neuefische.covidserver.controller;
 
 import de.neuefische.covidserver.model.ConfirmedPerDay;
+import de.neuefische.covidserver.model.CovidStatus;
 import de.neuefische.covidserver.service.CovidService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,9 +27,10 @@ public class ConfirmedCasesController {
     }
      */
 
-    @GetMapping
-    public String getCountryConfirmedAvarage() {
-        return covidService.calculateCountryConfirmedAverage();
+    @GetMapping("{country}")
+    public CovidStatus getCountryConfirmedAvarage(@PathVariable String country) {
+        return covidService.calculateCountryConfirmedAverage(country);
     }
+
 
 }

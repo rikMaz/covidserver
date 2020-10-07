@@ -3,6 +3,7 @@ package de.neuefische.covidserver.service;
 import de.neuefische.covidserver.api.CovidApiService;
 import de.neuefische.covidserver.model.ConfirmedPerDay;
 import de.neuefische.covidserver.model.CovidApiCountryPerDay;
+import de.neuefische.covidserver.model.CovidStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,10 +20,6 @@ public class CovidService {
         this.covidApiService = covidApiService;
     }
 
-    public List<ConfirmedPerDay> getConfirmedCases() {
-        CovidApiCountryPerDay[] covidValues = this.covidApiService.getCovidApiCountryPerDays();
-        return transformArrayToArrayList(covidValues);
-    }
 
     public ArrayList<ConfirmedPerDay> transformArrayToArrayList(CovidApiCountryPerDay[] covidValues) {
         ArrayList<ConfirmedPerDay> resultArray = new ArrayList<>();
@@ -33,15 +30,17 @@ public class CovidService {
     }
 
 
-    public String calculateCountryConfirmedAverage() {
+    public CovidStatus calculateCountryConfirmedAverage(String country) {
+        CovidStatus covidStatus = new CovidStatus();
         arrayOfConfirmedPerDay = new ArrayList<>();
-        CovidApiCountryPerDay[] covidValues = this.covidApiService.getCovidApiCountryPerDays();
+        CovidApiCountryPerDay[] covidValues = this.covidApiService.getCovidApiCountryPerDays(country);
         arrayOfConfirmedPerDay = transformArrayToArrayList(covidValues);
 
         int confirmedAverage = (arrayOfConfirmedPerDay.get(arrayOfConfirmedPerDay.size()-1).getConfirmed() - arrayOfConfirmedPerDay.get(arrayOfConfirmedPerDay.size()-8).getConfirmed())/7;
 
-        String resultString = "The seven-day-average of new covid cases in germany is: " + confirmedAverage;
+        covidStatus.setSevenDayAverageStatus(confirmedAverage);
+        covidStatus.setCountry(covidValues[1].getCountry());
 
-        return resultString;
+        return covidStatus;
     }
 }

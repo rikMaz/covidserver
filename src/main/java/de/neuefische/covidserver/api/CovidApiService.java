@@ -11,12 +11,12 @@ import java.util.List;
 @Service
 public class CovidApiService {
 
-    private final static String apiUrl = "https://api.covid19api.com/country/germany";
+    private final static String apiUrl = "https://api.covid19api.com/country/";
     private final RestTemplate restTemplate = new RestTemplate();
 
 
-    public CovidApiCountryPerDay[] getCovidApiCountryPerDays() {
-        ResponseEntity<CovidApiCountryPerDay[]> response = restTemplate.getForEntity(apiUrl, CovidApiCountryPerDay[].class);
+    public CovidApiCountryPerDay[] getCovidApiCountryPerDays(String country) {
+        ResponseEntity<CovidApiCountryPerDay[]> response = restTemplate.getForEntity(apiUrl + country, CovidApiCountryPerDay[].class);
         return response.getBody();
     }
 }

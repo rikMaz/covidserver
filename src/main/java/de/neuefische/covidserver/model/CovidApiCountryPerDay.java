@@ -14,5 +14,8 @@ public class CovidApiCountryPerDay {
     private String date;
     @JsonProperty("Confirmed")
     private int confirmed;
+    @JsonProperty("Country")
+    private String country;
+
 
 }
