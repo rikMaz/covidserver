@@ -45,4 +45,6 @@ public class CovidService {
 
         return covidStatus;
     }
+
+
 }
